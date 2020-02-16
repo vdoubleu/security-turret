@@ -1,29 +1,57 @@
 import face_recognition
 import cv2
 import numpy as np
+from pymongo import MongoClient
+import json
 
 def get_frame_info(frame):
+    client = MongoClient("mongodb+srv://vdoubleu:passwordVW12345@makeuot-known-users-gnkvv.mongodb.net/test?retryWrites=true&w=majority")
+    db = client.makeuotDB
+    valid_users = db.validUsers
+
+    recieved_data = valid_users.find_one({"_id":"1"})
+
+    val_users = recieved_data["users"]
+
     face_locations = []
     face_encodings = []
     face_names = []
     
-    patrick_image = face_recognition.load_image_file("patrick.jpg")
-    patrick_face_encoding = face_recognition.face_encodings(patrick_image)[0]
+    #patrick_image = face_recognition.load_image_file("patrick.jpg")
+    #patrick_face_encoding = face_recognition.face_encodings(patrick_image)[0]
 
-    known_face_encodings = [
-            patrick_face_encoding 
-    ]
+    known_face_encodings = []
+    known_face_names = []
 
-    known_face_names = [
-            "Patrick"
-    ]
+    #print(val_users[0])
+
+    #print(val_users[0].keys())
+
+    for x in range(len(val_users)):
+        for name in val_users[x]:
+            known_face_names.append(name)
+            known_face_encodings.append(val_users[x][name])
+        
+        #print(val_users[x])
+
+    
+
+    #for x in range(len(known_face_encodings[0])):
+    #    known_face_encodings[0][x] = float(known_face_encodings[0][x])
+
+    #print(patrick_face_encoding)
+    #print("---------------------------")
+    #print(known_face_encodings[1])
+
+    #print(known_face_encodings)
+
 
     face_locations = face_recognition.face_locations(frame)
     face_encodings = face_recognition.face_encodings(frame)
 
     for face_encoding in face_encodings:
         matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
-        name = "Unknown"
+    name = "Unknown"
 
    
     face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
@@ -33,12 +61,8 @@ def get_frame_info(frame):
 
     face_names.append(name)
     
-    #print("names", face_names[0])
-    #print("locations", face_locations[0])
     coor = face_locations[0]
-
-    #print(coor[0], coor[1], coor[2], coor[3])
-    print(coor[3], coor[0], coor[1], coor[2])
+    #print(coor[3], coor[0], coor[1], coor[2])
 
     return coor[3], coor[0], coor[1], coor[2]
 
@@ -78,6 +102,13 @@ def get_frame_info(frame):
 
     #return face_names, face_locations
     """
+"""
+def get_key(val): 
+    for key, value in my_dict.items(): 
+        if val == value: 
+            return key     
+    return "key doesn't exist"
+"""
 
 if __name__ == "__main__":
     print("test")
