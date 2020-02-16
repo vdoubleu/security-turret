@@ -2,9 +2,10 @@ import cv2
 import numpy as np
 import time
 import math
+from detect import *
 
 cv2.namedWindow("preview", )
-vc = cv2.VideoCapture(1)
+vc = cv2.VideoCapture(0)
 
 if vc.isOpened():  # try to get the first frame
     rval, frame = vc.read()
@@ -33,7 +34,12 @@ alpha = 0.0
 first = True
 
 while rval:
+    rval, frame = vc.read()
+
     if first:
+        squarePos[0], squarePos[1], squarePos[2], squarePos[3] = get_frame_info(frame)
+
+
         x1 = squarePos[0]-320
         y1 = 240-squarePos[1]
         x2 = squarePos[2]-320
@@ -48,7 +54,7 @@ while rval:
         first = False
 
     cv2.imshow("preview", frame)
-    rval, frame = vc.read()
+
     key = cv2.waitKey(20)
     if key == 27: # exit on ESC
         break
