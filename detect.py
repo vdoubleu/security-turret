@@ -51,20 +51,22 @@ def get_frame_info(frame):
 
     for face_encoding in face_encodings:
         matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
-    name = "Unknown"
+        name = "Unknown"
 
    
-    face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
-    best_match_index = np.argmin(face_distances)
-    if matches[best_match_index]:
-        name = known_face_names[best_match_index]
+        face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
+        best_match_index = np.argmin(face_distances)
+        if matches[best_match_index]:
+            name = known_face_names[best_match_index]
 
-    face_names.append(name)
-    
-    coor = face_locations[0]
-    #print(coor[3], coor[0], coor[1], coor[2])
-
-    return coor[3], coor[0], coor[1], coor[2]
+        face_names.append(name)
+   
+    print(face_locations)
+    if len(face_locations) == 0:
+        return 0, 0, 0, 0, "no_face"
+    else:
+        coor = face_locations[0]
+        return coor[3], coor[0], coor[1], coor[2], face_names[0]
 
     """
     cv2.rectangle(frame, (face_locations[0][3], face_locations[0][0]), (face_locations[0][1], face_locations[0][2]), (0, 0, 255), 2)
