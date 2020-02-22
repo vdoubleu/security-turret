@@ -1,2 +1,3 @@
 *.py.swp
-
+*.pyc
+*.cpython-36.pyc
