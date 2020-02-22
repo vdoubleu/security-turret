@@ -1,4 +1,4 @@
-# Security Turret
+## Security Turret
 
 A prototype for a small home, industrial or military safety setup. Uses face recognition to determine the identity of anyone who enters a region. If the intruder does not leave, force will be applied. Created by Victor Wang, Patrick Wang, Willard Ma and Kevin Gu.
 
@@ -22,6 +22,7 @@ Most of the processing is done within get\_frame\_info function in the detect.py
 The mathematics required to control the turret based on the position of the individual is done within turr-cont.py file. This file also acts as the driving code behind the entire program. It calls upon all the other functions in the program and then sends results to arduino through the Pyserial library to control the motors and turret accordingly. This file also has a visual output so that a controller could watchover the system incase of any mishaps. Human-in-the-loop is the standard for current-day autonomous defense systems and so it would make sense for our system to work in a similar fashion. Graphical manipulation for information output and ease of use is all done through the dispBox.py file which is called within turr-cont.py.
 
 ![](turret.jpg)
+
 Our final result
 
 
